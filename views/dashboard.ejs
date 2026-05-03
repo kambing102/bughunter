@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API SaaS Dashboard</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      padding: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #1e293b;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #334155;
+    }
+
+    th {
+      background: #111827;
+    }
+
+    .btn {
+      padding: 6px 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .delete { background: red; color: white; }
+    .danger { background: darkred; color: white; margin-bottom: 10px; }
+  </style>
+</head>
+
+<body>
+
+<h1>🚀 Dashboard API SaaS</h1>
+
+<a href="/api/logout">Logout</a>
+
+<br><br>
+
+<button class="btn danger" onclick="deleteAll()">🧨 Hapus Semua</button>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>API Key</th>
+    <th>Created</th>
+    <th>Action</th>
+  </tr>
+
+  <% apikeys.forEach(k => { %>
+    <tr id="row-<%= k._id %>">
+      <td><%= k.name %></td>
+      <td><%= k.key %></td>
+      <td><%= k.createdAt.toLocaleString() %></td>
+      <td>
+        <button class="btn delete" onclick="deleteKey('<%= k._id %>')">Delete</button>
+      </td>
+    </tr>
+  <% }) %>
+
+</table>
+
+<script>
+async function deleteKey(id) {
+  await fetch("/api/key/" + id, { method: "DELETE" });
+  document.getElementById("row-" + id).remove();
+}
+
+async function deleteAll() {
+  if (!confirm("Hapus semua API key?")) return;
+
+  await fetch("/api/keys", { method: "DELETE" });
+
+  document.querySelectorAll("tr[id^='row-']").forEach(e => e.remove());
+}
+</script>
+
+</body>
+</html>
