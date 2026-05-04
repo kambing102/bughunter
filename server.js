@@ -2,7 +2,7 @@
 // LOAD ENV + DB
 // ========================
 require("dotenv").config();
-require("./config/db");
+require("./config/db")
 
 const express = require("express");
 const app = express();

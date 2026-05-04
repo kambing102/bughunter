@@ -15,7 +15,7 @@ const apiKeySchema = new mongoose.Schema({
     unique: true
   },
 
-  // nama key (biar gampang di dashboard)
+  // nama key ()
   name: {
     type: String,
     default: "default"

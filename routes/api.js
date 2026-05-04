@@ -20,7 +20,7 @@ router.post("/register", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // basic validation
+    // basic
     if (!email || !password) {
       return res.status(400).json({ error: "Email & password required" });
     }
@@ -35,7 +35,7 @@ router.post("/register", async (req, res) => {
     const user = await User.create({
       email,
       password: hash
-      // plan default "free"
+      // plan "free"
     });
 
     res.json({
@@ -60,14 +60,14 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ error: "User not found" });
     }
 
-    // 🔥 bcrypt compare (WAJIB)
+    // bcrypt 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return res.status(400).json({ error: "Wrong password" });
     }
 
-    // 🔥 JWT harus bawa id
+    //  JWT 
     const token = jwt.sign({
       id: user._id
     });
@@ -89,7 +89,7 @@ router.post("/create-key", auth, async (req, res) => {
   try {
     const user = req.user;
 
-    // 🔥 fallback kalau user lama belum punya plan
+    //  fallback
     const userPlan = user.plan || "free";
     const plan = planConfig[userPlan];
 
@@ -170,7 +170,7 @@ router.post("/upgrade", auth, async (req, res) => {
 
     res.json({
       success: true,
-      message: "Upgraded to PRO 🚀"
+      message: "Upgraded to PRO"
     });
 
   } catch (err) {
